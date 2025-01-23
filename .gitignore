@@ -1,0 +1,36 @@
+# Virtual Environment
+venv/
+env/
+.env/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.dll
+*.png
+*.jpg
+*.jpeg
+*.log
+
+# Large files
+*.data.csv
