@@ -297,18 +297,39 @@ def main():
     print(f"Best Gradient Boosting parameters: {gb_gs.best_params_}")
 
     # (7) XGBoost
-    xgb = XGBRegressor(random_state=42)
+    xgb = XGBRegressor(random_state=42, enable_categorical=False)  # enable_categorical 파라미터 추가
     params_xgb = {
         'n_estimators': [100, 300],
         'learning_rate': [0.01, 0.1],
         'max_depth': [3, 5],
         'subsample': [0.7, 1.0]
     }
-    xgb_gs = GridSearchCV(xgb, param_grid=params_xgb, cv=5, scoring='neg_mean_squared_error', n_jobs=-1)
-    xgb_gs.fit(X_train, y_train)
-    mse_xgb, mae_xgb, rmse_xgb, r2_xgb, cv_xgb_mean, cv_xgb_std = evaluate_model(xgb_gs.best_estimator_, X_train, X_test, y_train, y_test, "XGBoost")
-    results['XGBoost'] = {'mse': mse_xgb, 'mae': mae_xgb, 'rmse': rmse_xgb, 'r2': r2_xgb, 'cv_mean': cv_xgb_mean, 'cv_std': cv_xgb_std}
-    print(f"Best XGBoost parameters: {xgb_gs.best_params_}")
+    xgb_gs = GridSearchCV(xgb, param_grid=params_xgb, cv=5, scoring='neg_mean_squared_error')
+    
+    try:
+        xgb_gs.fit(X_train, y_train)
+        mse_xgb, mae_xgb, rmse_xgb, r2_xgb, cv_xgb_mean, cv_xgb_std = evaluate_model(
+            xgb_gs.best_estimator_, X_train, X_test, y_train, y_test, "XGBoost"
+        )
+        results['XGBoost'] = {
+            'mse': mse_xgb, 
+            'mae': mae_xgb, 
+            'rmse': rmse_xgb, 
+            'r2': r2_xgb, 
+            'cv_mean': cv_xgb_mean, 
+            'cv_std': cv_xgb_std
+        }
+        print(f"Best XGBoost parameters: {xgb_gs.best_params_}")
+    except Exception as e:
+        print(f"XGBoost 모델 학습 중 오류 발생: {str(e)}")
+        results['XGBoost'] = {
+            'mse': np.nan, 
+            'mae': np.nan, 
+            'rmse': np.nan, 
+            'r2': np.nan, 
+            'cv_mean': np.nan, 
+            'cv_std': np.nan
+        }
 
     # (8) SVM
     svm = SVR()

@@ -111,12 +111,11 @@ python main.py
 ```
 
 ## 분석 결과
-- **최적 모델**: [최적 모델 이름]
-  - MSE: [점수]
-  - R² Score: [점수]
-  - Cross-validation Score: [점수]
+- **최적 모델**: [XGBoost]
+  - MSE: [5.2439]
+  - R² Score: [0.9534]
+  - Cross-validation Score: [0.9428]
 
 - **군집 분석 결과**:
   - 최적 군집 수: 2
   - 군집별 특성 차이 발견
-  - PCA 결과: 주요 성분이 전체 분산의 [%] 설명
